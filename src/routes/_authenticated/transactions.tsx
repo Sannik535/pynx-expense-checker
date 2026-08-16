@@ -1,18 +1,11 @@
 import { useEffect, useState, useCallback, useMemo } from "react"
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 import { format, isWithinInterval, startOfDay, endOfDay } from "date-fns"
-import {
-  ArrowDown,
-  ArrowUp,
-  Download,
-  Moon,
-  Sun,
-  LogOut,
-  Search,
-  Wallet,
-} from "lucide-react"
+import { ArrowDown, ArrowUp, Download, Search } from "lucide-react"
 
 import { AddExpenseDialog } from "@/components/transactions/add-expense-dialog"
+import { AppHeader } from "@/components/layout/app-header"
+import { BottomNav } from "@/components/layout/bottom-nav"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -53,36 +46,14 @@ function formatCurrency(amount: number) {
 }
 
 function TransactionsPage() {
-  const navigate = useNavigate()
-
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
-  const [isDark, setIsDark] = useState(false)
 
   const [search, setSearch] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("all")
   const [fromDate, setFromDate] = useState("")
   const [toDate, setToDate] = useState("")
-
-  useEffect(() => {
-    const stored = localStorage.getItem("theme")
-    const dark = stored === "dark"
-    setIsDark(dark)
-    document.documentElement.classList.toggle("dark", dark)
-  }, [])
-
-  function toggleTheme() {
-    const next = !isDark
-    setIsDark(next)
-    document.documentElement.classList.toggle("dark", next)
-    localStorage.setItem("theme", next ? "dark" : "light")
-  }
-
-  async function handleLogout() {
-    await supabase.auth.signOut()
-    navigate({ to: "/auth" })
-  }
 
   const loadData = useCallback(async () => {
     const {
@@ -177,50 +148,9 @@ function TransactionsPage() {
 
   return (
     <div className="min-h-screen bg-[#EEF7F4] dark:bg-[#0E1614] text-foreground">
-      {/* Nav */}
-      <header className="border-b border-black/5 bg-[#EEF7F4]/80 backdrop-blur dark:bg-[#0E1614]/80 dark:border-white/5">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-2 text-lg font-semibold text-teal-700 dark:text-teal-300">
-            <Wallet className="h-5 w-5" />
-            Pynx
-          </div>
+      <AppHeader />
 
-          <nav className="flex items-center gap-1 text-sm font-medium">
-            <Link
-              to="/dashboard"
-              className="rounded-full px-4 py-1.5 text-muted-foreground hover:text-foreground"
-              activeProps={{ className: "bg-teal-100 dark:bg-teal-900/50 text-teal-800 dark:text-teal-100" }}
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/transactions"
-              className="rounded-full px-4 py-1.5 text-teal-800 dark:text-teal-100"
-              activeProps={{ className: "bg-teal-100 dark:bg-teal-900/50" }}
-            >
-              Transactions
-            </Link>
-            <Link
-              to="/budgets"
-              className="rounded-full px-4 py-1.5 text-muted-foreground hover:text-foreground"
-              activeProps={{ className: "bg-teal-100 dark:bg-teal-900/50 text-teal-800 dark:text-teal-100" }}
-            >
-              Budgets
-            </Link>
-          </nav>
-
-          <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon-sm" onClick={toggleTheme}>
-              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </Button>
-            <Button variant="ghost" size="icon-sm" onClick={handleLogout}>
-              <LogOut className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-7xl space-y-6 p-6">
+      <main className="mx-auto max-w-7xl space-y-6 p-6 pb-24 md:pb-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -349,6 +279,8 @@ function TransactionsPage() {
           )}
         </Card>
       </main>
+
+      <BottomNav />
     </div>
   )
 }
