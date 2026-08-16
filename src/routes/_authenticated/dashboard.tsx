@@ -165,7 +165,7 @@ function Dashboard() {
 
       <main className="mx-auto max-w-7xl space-y-6 p-6 pb-24 md:pb-6">
         {/* Overview header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Overview</h1>
             <p className="text-muted-foreground">A calm view of your spending.</p>
