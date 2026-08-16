@@ -160,7 +160,7 @@ function Dashboard() {
   const periodLabel = period === "week" ? "this week" : "this month"
 
   return (
-    <div className="min-h-screen bg-[#EEF7F4] dark:bg-[#0E1614] text-foreground">
+    <div className="min-h-screen overflow-x-hidden bg-[#EEF7F4] dark:bg-[#0E1614] text-foreground">
       <AppHeader />
 
       <main className="mx-auto max-w-7xl space-y-6 p-6 pb-24 md:pb-6">
@@ -233,7 +233,7 @@ function Dashboard() {
         </div>
 
         {/* By category + chart */}
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2 min-w-0">
           <Card className="p-5">
             <h2 className="mb-4 font-semibold">By category</h2>
 
@@ -265,7 +265,7 @@ function Dashboard() {
             )}
           </Card>
 
-          <Card className="p-5">
+          <Card className="min-w-0 p-5">
             <h2 className="mb-4 font-semibold">Last 30 days</h2>
 
             <div className="h-64">
